@@ -31,7 +31,7 @@ const user = require('./routes/user');
 //routes
 const product = require("./routes/product");
 
-
+//Server routes
 server.use((req, res, next) => {
 
     res.header("Access-Control-Allow-Origin", "*");
