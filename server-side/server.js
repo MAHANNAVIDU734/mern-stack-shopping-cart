@@ -2,8 +2,12 @@ require('dotenv').config();
 const express = require("express");
 const server = express();
 
+
 //mongoose
 const mongoose = require("mongoose");
+
+// const str = CircularJSON.stringify(obj);
+// CircularJSON.parse(str)
 
 //database connection
 const uri = process.env.ATLAS_URI;
@@ -50,7 +54,8 @@ server.use((req, res, next) => {
     next();
 });
 
-server.use("/", product);
+server.use("/api/product", product);
+server.use('/api/user', user);
 
 server.use((req, res, next) => {
     const error = new Error("Unable to manage the request");
