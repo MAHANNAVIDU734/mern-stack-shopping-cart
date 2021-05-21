@@ -3,22 +3,22 @@ const router = express.Router();
 const Product = require("../models/Product");
 const Mongoose = require("mongoose");
 
-router.get("/api/product", (req, res) => {
-    const product = Product.find({}, (err, product) => {
+router.get("/products", (req, res, next) => {
+    const products = Product.find({}, (err, products) => {
         if (err) {
             console.log(err);
         } else {
             res.status(200).json({
-                data: product
+                data: products
             });
         }
     })
 
 });
 
-router.get("/api/product/:id", (req, res) => {
+router.get("/product/:id", (req, res, next) => {
 
-    let id = req.params._id;
+    let id = req.params.id;
 
     let product = Product.findById(id, (err, product) => {
         if (err) {
@@ -37,8 +37,7 @@ router.get("/api/product/:id", (req, res) => {
 })
 
 
-//add an item
-router.post("/api/orders", (req, res) => {
+router.post("/Orders", (req, res, next) => {
     console.log(req.body);
 
     let newproduct = new Product({
@@ -64,10 +63,10 @@ router.post("/api/orders", (req, res) => {
 
 });
 
-router.put("/api/product/:id", (req, res) => {
+router.put("/product/:id", (req, res, next) => {
     console.log(req.body);
     console.log(req.params.id);
-    let updateProduct = Product.findByIdAndUpdate(req.params.id, {
+    let updatedProduct = Product.findByIdAndUpdate(req.params.id, {
         $set: {
             productname: req.body.productname,
             description: req.body.description,
@@ -87,10 +86,8 @@ router.put("/api/product/:id", (req, res) => {
             });
         }
     })
-
 });
-
-router.route('/api/product/:id').delete((req, res) => {
+router.route("/product/:id").delete((req, res) => {
     Product.findByIdAndDelete(req.params.id)
         .then(() => res.json('Product deleted.'))
         .catch(err => res.status(400).json('Error: ' * err));

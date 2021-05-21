@@ -2,14 +2,10 @@ require('dotenv').config();
 const express = require("express");
 const server = express();
 
-
-//mongoose
 const mongoose = require("mongoose");
 
-// const str = CircularJSON.stringify(obj);
-// CircularJSON.parse(str)
-
 //database connection
+// mongoose
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
 const connection = mongoose.connection;
@@ -31,11 +27,12 @@ server.use(cors());
 
 
 
-const user = require('./routes/user');
+
 //routes
 const product = require("./routes/product");
+const user = require("./routes/user");
 
-//Server routes
+
 server.use((req, res, next) => {
 
     res.header("Access-Control-Allow-Origin", "*");
@@ -44,6 +41,7 @@ server.use((req, res, next) => {
 
 
     if (req.method === "OPTIONS") {
+
         res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
 
         return res.status(200).json({
@@ -54,8 +52,8 @@ server.use((req, res, next) => {
     next();
 });
 
-server.use("/api/product", product);
-server.use('/api/user', user);
+server.use("/api/", product);
+server.use("/api/", user);
 
 server.use((req, res, next) => {
     const error = new Error("Unable to manage the request");
@@ -83,7 +81,7 @@ server.use((error, req, res, next) => {
 const port = process.env.PORT || 4000;
 
 
-
+//create the server
 server.listen(port, () => {
-    console.log('Server is running @ localhost:4000');
+    console.log("Server is running @ localhost:4000");
 });
